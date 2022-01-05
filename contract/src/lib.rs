@@ -39,8 +39,11 @@ impl Welcome {
     pub fn set_greeting(&mut self, message: i32) {
         let account_id = env::signer_account_id();
         let old_pnl: i32 = self.get_greeting(env::signer_account_id());
-        let new_pnl: i32 = &old_pnl + &message / 2;
-        self.records.insert(&account_id, &new_pnl);
+        if old_pnl > 0 {
+            self.records.insert(&account_id, &(&(&old_pnl + &message) / 2));
+        } else {
+            self.records.insert(&account_id, &message);
+        }
     }
 
     // `match` is similar to `switch` in other languages; here we use it to default to "Hello" if
@@ -54,17 +57,6 @@ impl Welcome {
     }
 }
 
-/*
- * The rest of this file holds the inline tests for the code above
- * Learn more about Rust tests: https://doc.rust-lang.org/book/ch11-01-writing-tests.html
- *
- * To run from contract directory:
- * cargo test -- --nocapture
- *
- * From project root, to run in combination with frontend tests:
- * yarn test
- *
- */
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -94,7 +86,20 @@ mod tests {
     }
 
     #[test]
-    fn set_then_get_greeting() {
+    fn set_then_get_two_trades() {
+        let context = get_context(vec![], false);
+        testing_env!(context);
+        let mut contract = Welcome::default();
+        contract.set_greeting(20);
+        contract.set_greeting(10);
+        assert_eq!(
+            15,
+            contract.get_greeting("bob_near".to_string())
+        );
+    }
+
+    #[test]
+    fn set_then_get_one_trade() {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Welcome::default();
@@ -110,7 +115,6 @@ mod tests {
         let context = get_context(vec![], true);
         testing_env!(context);
         let contract = Welcome::default();
-        // this test did not call set_greeting so should return the default "Hello" greeting
         assert_eq!(
             0,
             contract.get_greeting("francis.near".to_string())
