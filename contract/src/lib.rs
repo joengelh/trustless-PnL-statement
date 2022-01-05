@@ -38,7 +38,7 @@ impl Default for Welcome {
 impl Welcome {
     pub fn set_greeting(&mut self, message: i32) {
         let account_id = env::signer_account_id();
-        let old_pnl: i32 = self.get_greeting(account_id);
+        let old_pnl: i32 = self.get_greeting(env::signer_account_id());
         let new_pnl: i32 = &old_pnl + &message / 2;
         self.records.insert(&account_id, &new_pnl);
     }
