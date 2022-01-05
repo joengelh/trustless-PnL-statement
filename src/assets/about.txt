@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Piazzolla
+- Font Author: Copyright 2018 The Piazzolla Project Authors (https://github.com/huertatipografica/piazzolla)
+- Font Source: http://fonts.gstatic.com/s/piazzolla/v16/N0b52SlTPu5rIkWIZjVKKtYtfxYqZ4RJBFzFfYUjkSDdlqZgy7I_wXLy1AHfAAy5.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

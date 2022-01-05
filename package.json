@@ -1,86 +1,40 @@
 {
-  "name": "trustless-profit-loss-statement",
+  "name": "silene",
   "version": "0.0.1",
   "license": "UNLICENSED",
   "scripts": {
     "build": "npm run build:contract && npm run build:web",
     "build:contract": "node contract/compile.js",
     "build:contract:debug": "node contract/compile.js --debug",
-    "build:web": "node copy-dev-account.js && vue-cli-service build",
+    "build:web": "parcel build src/index.html --public-url ./",
     "dev:deploy:contract": "near dev-deploy",
     "deploy:contract": "near deploy",
     "deploy:pages": "gh-pages -d dist/",
     "deploy": "npm run build && npm run deploy:contract && npm run deploy:pages",
     "prestart": "npm run build:contract:debug && npm run dev:deploy:contract",
-    "start": "echo The app is starting! It will automatically open in your browser when ready && npm run serve",
+    "start": "echo The app is starting! It will automatically open in your browser when ready && env-cmd -f ./neardev/dev-account.env parcel src/index.html --open",
     "dev": "nodemon --watch contract/src -e rs --exec \"npm run start\"",
-    "test:web": "vue-cli-service test:unit",
-    "test": "npm run build:contract:debug && cd contract && cargo test -- --nocapture && cd .. && vue-cli-service test:unit",
-    "serve": "node copy-dev-account.js && vue-cli-service serve --open",
-    "lint": "eslint . --ext .js --ext .vue --fix"
-  },
-  "dependencies": {
-    "core-js": "~3.12.1",
-    "near-api-js": "~0.43.1",
-    "vue": "~2.6.11"
+    "test": "npm run build:contract:debug && cd contract && cargo test -- --nocapture && cd .. && jest test --runInBand"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.8",
-    "@vue/cli-plugin-eslint": "~4.5.8",
-    "@vue/cli-plugin-unit-jest": "~4.5.4",
-    "@vue/cli-service": "~4.5.8",
-    "@vue/test-utils": "~1.2.0",
     "env-cmd": "~10.1.0",
-    "eslint": "~7.26.0",
-    "eslint-plugin-vue": "~7.9.0",
     "gh-pages": "~3.1.0",
+    "jest": "~26.6.2",
+    "jest-environment-node": "~26.6.2",
     "near-cli": "~2.1.1",
-    "nodemon": "~2.0.4",
-    "shelljs": "~0.8.4",
-    "vue-template-compiler": "~2.6.11"
+    "nodemon": "~2.0.3",
+    "parcel-bundler": "~1.12.4",
+    "shelljs": "~0.8.4"
   },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "src/config.js",
-      "/tests/*.spec.js",
-      "copy-dev-account.js"
-    ],
-    "env": {
-      "browser": true,
-      "es2020": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:vue/essential"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "vue"
-    ],
-    "rules": {
-      "indent": [
-        2,
-        2
-      ],
-      "quotes": [
-        "off",
-        "double"
-      ],
-      "vue/html-indent": [
-        "error",
-        2,
-        {
-          "alignAttributesVertically": true
-        }
-      ]
-    }
+  "dependencies": {
+    "near-api-js": "~0.43.1",
+    "regenerator-runtime": "~0.13.5"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "jest": {
+    "testEnvironment": "near-cli/test_environment",
+    "testPathIgnorePatterns": [
+      "<rootDir>/contract/",
+      "<rootDir>/node_modules/"
+    ]
+  }
 }
