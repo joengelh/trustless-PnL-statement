@@ -1,10 +1,10 @@
 /*
  * This is an example of a Rust smart contract with two simple, symmetric functions:
  *
- * 1. add_trade: accepts a trades result in percent, such as "12", and records it for the user (account_id)
+ * 1. set_greeting: accepts a greeting, such as "howdy", and records it for the user (account_id)
  *    who sent the request
- * 2. get_pnl: accepts an account_id and returns the average result saved for it, defaulting to
- *    0
+ * 2. get_greeting: accepts an account_id and returns the greeting saved for it, defaulting to
+ *    "Hello"
  *
  * Learn more about writing NEAR smart contracts with Rust:
  * https://github.com/near/near-sdk-rs
@@ -22,11 +22,11 @@ setup_alloc!();
 // Note: the names of the structs are not important when calling the smart contract, but the function names are
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize)]
-pub struct Trades {
+pub struct Welcome {
     records: LookupMap<String, i32>,
 }
 
-impl Default for Trades {
+impl Default for Welcome {
   fn default() -> Self {
     Self {
       records: LookupMap::new(b"a".to_vec()),
@@ -35,23 +35,21 @@ impl Default for Trades {
 }
 
 #[near_bindgen]
-impl Trades {
-    pub fn add_trade(&mut self, message: String) {
+impl Welcome {
+    pub fn set_greeting(&mut self, message: i32) {
         let account_id = env::signer_account_id();
-
-        // Use env::log to record logs permanently to the blockchain!
-        env::log(format!("Saving trade '{}' for account '{}'", message, account_id,).as_bytes());
-
-        self.records.insert(&account_id, &message);
+        let old_pnl: i32 = self.get_greeting(account_id);
+        let new_pnl: i32 = &old_pnl + &message / 2;
+        self.records.insert(&account_id, &new_pnl);
     }
 
     // `match` is similar to `switch` in other languages; here we use it to default to "Hello" if
     // self.records.get(&account_id) is not yet defined.
     // Learn more: https://doc.rust-lang.org/book/ch06-02-match.html#matching-with-optiont
-    pub fn get_pnl(&self, account_id: String) -> String {
+    pub fn get_greeting(&self, account_id: String) -> i32 {
         match self.records.get(&account_id) {
-            Some(trade) => trade,
-            None => "Hello".to_string(),
+            Some(greeting) => greeting,
+            None => 0,
         }
     }
 }
@@ -96,26 +94,26 @@ mod tests {
     }
 
     #[test]
-    fn add_then_get_pnl() {
+    fn set_then_get_greeting() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Trades::default();
-        contract.add_trade("howdy".to_string());
+        let mut contract = Welcome::default();
+        contract.set_greeting(20);
         assert_eq!(
-            "howdy".to_string(),
-            contract.get_pnl("bob_near".to_string())
+            20,
+            contract.get_greeting("bob_near".to_string())
         );
     }
 
     #[test]
-    fn get_default_trade() {
+    fn get_default_greeting() {
         let context = get_context(vec![], true);
         testing_env!(context);
-        let contract = Trades::default();
-        // this test did not call add_trade so should return the default "Hello" trade
+        let contract = Welcome::default();
+        // this test did not call set_greeting so should return the default "Hello" greeting
         assert_eq!(
-            "Hello".to_string(),
-            contract.get_pnl("francis.near".to_string())
+            0,
+            contract.get_greeting("francis.near".to_string())
         );
     }
 }
