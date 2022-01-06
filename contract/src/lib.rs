@@ -6,11 +6,11 @@ setup_alloc!();
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize)]
-pub struct Welcome {
-    records: LookupMap<String, i32>,
+pub struct Pnl {
+    records: LookupMap<String, f64>,
 }
 
-impl Default for Welcome {
+impl Default for Pnl {
   fn default() -> Self {
     Self {
       records: LookupMap::new(b"a".to_vec()),
@@ -19,21 +19,21 @@ impl Default for Welcome {
 }
 
 #[near_bindgen]
-impl Welcome {
-    pub fn set_greeting(&mut self, message: i32) {
+impl Pnl {
+    pub fn add_statement(&mut self, statement: f64) {
         let account_id = env::signer_account_id();
-        let old_pnl: i32 = self.get_greeting(env::signer_account_id());
-        if old_pnl > 0 {
-            self.records.insert(&account_id, &(&(&old_pnl + &message) / 2));
+        let old_pnl: f64 = self.get_pnl(env::signer_account_id());
+        if old_pnl > 0.0 {
+            self.records.insert(&account_id, &(&(&old_pnl + &statement) / 2.0));
         } else {
-            self.records.insert(&account_id, &message);
+            self.records.insert(&account_id, &statement);
         }
     }
 
-    pub fn get_greeting(&self, account_id: String) -> i32 {
+    pub fn get_pnl(&self, account_id: String) -> f64 {
         match self.records.get(&account_id) {
-            Some(greeting) => greeting,
-            None => 0,
+            Some(pnl) => pnl,
+            None => 0.0,
         }
     }
 }
@@ -66,38 +66,38 @@ mod tests {
     }
 
     #[test]
-    fn set_then_get_two_trades() {
+    fn add_then_get_two_trades() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Welcome::default();
-        contract.set_greeting(20);
-        contract.set_greeting(10);
+        let mut contract = Pnl::default();
+        contract.add_statement(20.0);
+        contract.add_statement(10.0);
         assert_eq!(
-            15,
-            contract.get_greeting("bob_near".to_string())
+            15.0,
+            contract.get_pnl("bob_near".to_string())
         );
     }
 
     #[test]
-    fn set_then_get_one_trade() {
+    fn add_then_get_one_trade() {
         let context = get_context(vec![], false);
         testing_env!(context);
-        let mut contract = Welcome::default();
-        contract.set_greeting(20);
+        let mut contract = Pnl::default();
+        contract.add_statement(20.0);
         assert_eq!(
-            20,
-            contract.get_greeting("bob_near".to_string())
+            20.0,
+            contract.get_pnl("bob_near".to_string())
         );
     }
 
     #[test]
-    fn get_default_greeting() {
+    fn get_default_pnl() {
         let context = get_context(vec![], true);
         testing_env!(context);
-        let contract = Welcome::default();
+        let contract = Pnl::default();
         assert_eq!(
-            0,
-            contract.get_greeting("francis.near".to_string())
+            0.0,
+            contract.get_pnl("francis.near".to_string())
         );
     }
 }
