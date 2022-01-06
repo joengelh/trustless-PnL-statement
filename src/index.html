@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="./assets/favicon.ico" />
   <link rel="apple-touch-icon" href="./assets/favicon.ico" />
-  <title>Welcome to Silene</title>
+  <title>Welcome to Trustless PnL</title>
   <link rel="stylesheet" href="global.css">
 </head>
 <body>
   <main id="signed-out-flow" style="display: none">
-    <h1>Welcome to Silene!</h1>
+    <h1>Welcome to Trustless PnL!</h1>
     <p>
-      To make use of the Silene asset management, you need to sign in. The button
+      To make use of the Trustless PnL, you need to sign in. The button
       below will sign you in using NEAR Wallet.
     </p>
     <p>
@@ -36,8 +36,8 @@
     <main>
       <h1>
         <label
-          for="fund_name"
-          data-behavior="fund_name"
+          for="statement"
+          data-behavior="statement"
           style="color: #3f888f;"
         >
         </label>
@@ -46,7 +46,7 @@
       <form>
         <fieldset id="fieldset">
           <label
-            for="fund_name"
+            for="statement"
             style="display: block; color: var(--gray); margin-bottom: 0.5em"
           >
             Rename Fund
@@ -55,8 +55,8 @@
             <input
             style="flex: 1"
               autocomplete="off"
-              id="fund_name"
-              data-behavior="fund_name"
+              id="statement"
+              data-behavior="statement"
             />
             <button disabled style="border-radius: 0 5px 5px 0">Save</button>
           </div>
@@ -68,7 +68,7 @@
 
   <aside data-behavior="notification" style="display: none">
     <a target="_blank" href="https://explorer.testnet.near.org/accounts/"></a>
-    called method: 'set_fund_name' in contract:
+    called method: 'add_statement' in contract:
     <a target="_blank" href="https://explorer.testnet.near.org/accounts/"></a>
     <footer>
       <div>✔ Succeeded</div>

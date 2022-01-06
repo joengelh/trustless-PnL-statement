@@ -6,7 +6,7 @@ import getConfig from './config'
 const { networkId } = getConfig(process.env.NODE_ENV || 'development')
 
 // global variable used throughout
-let currentName
+let currentStatement
 
 const submitButton = document.querySelector('form button')
 
@@ -14,23 +14,21 @@ document.querySelector('form').onsubmit = async (event) => {
   event.preventDefault()
 
   // get elements from the form using their id attribute
-  const { fieldset, fund_name } = event.target.elements
+  const { fieldset, statement } = event.target.elements
 
   // disable the form while the value gets updated on-chain
   fieldset.disabled = true
 
   try {
     // make an update call to the smart contract
-    await window.contract.set_fund_name({
-      // pass the value that the user entered in the fund_name field
-      message: fund_name.value
+    await window.contract.add_statement({
+      // pass the value that the user entered in the statement field
+      message: statement.value
     })
   } catch (e) {
     alert(
       'Something went wrong! ' +
-      'Maybe you need to sign out and back in? ' +
-      'Check your browser console for more info.'
-    )
+      'There is nothing you can do..')
     throw e
   } finally {
     // re-enable the form, whether the call succeeded or failed
@@ -40,7 +38,7 @@ document.querySelector('form').onsubmit = async (event) => {
   // disable the save button, since it now matches the persisted value
   submitButton.disabled = true
 
-  // update the fund_name in the UI
+  // update the statement in the UI
   await fetchName()
 
   // show notification
@@ -53,8 +51,8 @@ document.querySelector('form').onsubmit = async (event) => {
   }, 11000)
 }
 
-document.querySelector('input#fund_name').oninput = (event) => {
-  if (event.target.value !== currentName) {
+document.querySelector('input#statement').oninput = (event) => {
+  if (event.target.value !== currentStatement) {
     submitButton.disabled = false
   } else {
     submitButton.disabled = true
@@ -92,15 +90,15 @@ function signedInFlow() {
   fetchName()
 }
 
-// update global currentName variable; update DOM with it
+// update global currentStatement variable; update DOM with it
 async function fetchName() {
-  currentName = await contract.get_fund_name({ account_id: window.accountId })
-  document.querySelectorAll('[data-behavior=fund_name]').forEach(el => {
+  currentStatement = await contract.get_statement({ account_id: window.accountId })
+  document.querySelectorAll('[data-behavior=statement]').forEach(el => {
     // set divs, spans, etc
-    el.innerText = currentName
+    el.innerText = currentStatement
 
     // set input elements
-    el.value = currentName
+    el.value = currentStatement
   })
 }
 
