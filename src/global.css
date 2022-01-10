@@ -10,7 +10,7 @@ html {
   --shadow: #e6e6e6;
   --success: rgb(90, 206, 132);
   --primary: #FF585D;
-  --secondary: #0072CE;
+  --secondary: #f0f349;
 
   background-color: var(--bg);
   color: var(--fg);
