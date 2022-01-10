@@ -4,33 +4,33 @@
     <main>
       <h1>
         <label
-          for="greeting"
+          for="statement"
           style="color: var(--secondary);border-bottom: 2px solid var(--secondary);"
-        >{{ savedGreeting }}</label>
+        >{{ records }}</label>
         {{ accountId }}
       </h1>
-      <form v-on:submit.prevent="saveGreeting">
+      <form v-on:submit.prevent="addPnl">
         <fieldset ref="fieldset">
           <label
-            for="greeting"
+            for="statement"
             style="display:block; color:var(--gray);margin-bottom:0.5em;"
-          >Change greeting</label>
+          >Add PnL Statement</label>
           <div style="display:flex">
-            <input v-model="newGreeting" autocomplete="off" id="greeting" style="flex:1" />
+            <input v-model="newPnl" autocomplete="off" id="statement" style="flex:1" />
             <button id="save" style="border-radius:0 5px 5px 0">Save</button>
           </div>
         </fieldset>
       </form>
-      <p>Look at that! A Hello World app! This greeting is stored on the NEAR blockchain. Check it out:</p>
+      <p>Look at that! A Hello World app! This statement is stored on the NEAR blockchain. Check it out:</p>
       <ol>
         <li>
           Look in
           <code>src/App.vue</code> and
           <code>src/utils.js</code>
           - you'll see
-          <code>get_greeting</code>
+          <code>get_pnl</code>
           and
-          <code>set_greeting</code> being called on
+          <code>add_statement</code> being called on
           <code>contract</code>. What's this?
         </li>
         <li>
@@ -76,7 +76,7 @@
       v-show="notificationVisible"
       ref="notification"
       :networkId="networkId"
-      :msg="'called method: set_greeting'"
+      :msg="'called method: add_statement'"
       :contractId="contractId"
       :visible="false"
     />
@@ -103,8 +103,8 @@ export default {
 
   data: function () {
     return {
-      savedGreeting: "",
-      newGreeting: "",
+      records: "",
+      newPnl: "",
       notificationVisible: false,
     }
   },
@@ -126,17 +126,17 @@ export default {
 
   methods: {
     retrieveSavedGreeting() {
-      //retrieve greeting
+      //retrieve statement
       window.contract
-        .get_greeting({ account_id: window.accountId })
-        .then((greetingFromContract) => {
-          this.savedGreeting = greetingFromContract
-          this.newGreeting = greetingFromContract
+        .get_pnl({ account_id: window.accountId })
+        .then((statementFromContract) => {
+          this.records = statementFromContract
+          this.newPnl = statementFromContract
         })
     },
 
-    saveGreeting: async function (event) {
-      // fired on form submit button used to update the greeting
+    addPnl: async function (event) {
+      // fired on form submit button used to update the statement
 
       // disable the form while the value gets updated on-chain
       this.$refs.fieldset.disabled = true
@@ -144,9 +144,9 @@ export default {
       try {
         
         // make an update call to the smart contract
-        await window.contract.set_greeting({
-          // pass the new greeting
-          message: this.newGreeting,
+        await window.contract.add_statement({
+          // pass the new statement
+          message: this.newPnl,
         })
       } catch (e) {
         alert(
@@ -160,8 +160,8 @@ export default {
         this.$refs.fieldset.disabled = false
       }
 
-      // update savedGreeting with persisted value
-      this.savedGreeting = this.newGreeting
+      // update records with persisted value
+      this.records = this.newPnl
 
       this.notificationVisible = true //show new notification
 
