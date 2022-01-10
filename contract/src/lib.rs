@@ -46,10 +46,10 @@ mod tests {
 
     fn get_context(input: Vec<u8>, is_view: bool) -> VMContext {
         VMContext {
-            current_account_id: "alice_near".to_string(),
-            signer_account_id: "bob_near".to_string(),
+            current_account_id: "alice.near".to_string(),
+            signer_account_id: "bob.near".to_string(),
             signer_account_pk: vec![0, 1, 2],
-            predecessor_account_id: "carol_near".to_string(),
+            predecessor_account_id: "carol.near".to_string(),
             input,
             block_index: 0,
             block_timestamp: 0,
@@ -73,8 +73,8 @@ mod tests {
         contract.set_greeting(20.0);
         contract.set_greeting(10.0);
         assert_eq!(
-            15.0,
-            contract.get_greeting("bob_near".to_string())
+            30.0,
+            contract.get_greeting("bob.near".to_string())
         );
     }
 
@@ -86,7 +86,45 @@ mod tests {
         contract.set_greeting(20.0);
         assert_eq!(
             20.0,
-            contract.get_greeting("bob_near".to_string())
+            contract.get_greeting("bob.near".to_string())
+        );
+    }
+
+    #[test]
+    fn add_negative_trade() {
+        let context = get_context(vec![], false);
+        testing_env!(context);
+        let mut contract = Pnl::default();
+        contract.set_greeting(-1.0);
+        contract.set_greeting(-3.0);
+        assert_eq!(
+            -4.0,
+            contract.get_greeting("bob.near".to_string())
+        );
+    }
+
+    #[test]
+    fn add_decimal_trade() {
+        let context = get_context(vec![], false);
+        testing_env!(context);
+        let mut contract = Pnl::default();
+        contract.set_greeting(-1.36);
+        contract.set_greeting(1.36);
+        assert_eq!(
+            0.0,
+            contract.get_greeting("bob.near".to_string())
+        );
+    }
+
+    #[test]
+    fn add_to_other_account_id() {
+        let context = get_context(vec![], false);
+        testing_env!(context);
+        let mut contract = Pnl::default();
+        contract.set_greeting(1.36);
+        assert_eq!(
+            0.0,
+            contract.get_greeting("francis.near".to_string())
         );
     }
 
