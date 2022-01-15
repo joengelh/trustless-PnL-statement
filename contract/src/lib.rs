@@ -32,7 +32,7 @@ impl Pnl {
 
     pub fn get_greeting(&self, account_id: String) -> f64 {
         match self.records.get(&account_id) {
-            Some(pnl) => pnl,
+            Some(pnl) => (pnl * 100.0).round() / 100.0,
             None => 0.0,
         }
     }
