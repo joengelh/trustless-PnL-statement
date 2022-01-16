@@ -20,9 +20,9 @@ impl Default for Pnl {
 
 #[near_bindgen]
 impl Pnl {
-    pub fn set_greeting(&mut self, statement: f64) {
+    pub fn add_statement(&mut self, statement: f64) {
         let account_id = env::signer_account_id();
-        let old_pnl: f64 = self.get_greeting(env::signer_account_id());
+        let old_pnl: f64 = self.get_pnl(env::signer_account_id());
         if old_pnl != 0.0 {
             self.records.insert(&account_id, &(&(&old_pnl + &statement)));
         } else {
@@ -30,7 +30,7 @@ impl Pnl {
         }
     }
 
-    pub fn get_greeting(&self, account_id: String) -> f64 {
+    pub fn get_pnl(&self, account_id: String) -> f64 {
         match self.records.get(&account_id) {
             Some(pnl) => (pnl * 100.0).round() / 100.0,
             None => 0.0,
@@ -70,11 +70,11 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Pnl::default();
-        contract.set_greeting(20.0);
-        contract.set_greeting(10.0);
+        contract.add_statement(20.0);
+        contract.add_statement(10.0);
         assert_eq!(
             30.0,
-            contract.get_greeting("bob.near".to_string())
+            contract.get_pnl("bob.near".to_string())
         );
     }
 
@@ -83,10 +83,10 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Pnl::default();
-        contract.set_greeting(20.0);
+        contract.add_statement(20.0);
         assert_eq!(
             20.0,
-            contract.get_greeting("bob.near".to_string())
+            contract.get_pnl("bob.near".to_string())
         );
     }
 
@@ -95,11 +95,11 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Pnl::default();
-        contract.set_greeting(-1.0);
-        contract.set_greeting(-3.0);
+        contract.add_statement(-1.0);
+        contract.add_statement(-3.0);
         assert_eq!(
             -4.0,
-            contract.get_greeting("bob.near".to_string())
+            contract.get_pnl("bob.near".to_string())
         );
     }
 
@@ -108,11 +108,11 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Pnl::default();
-        contract.set_greeting(-1.36);
-        contract.set_greeting(1.36);
+        contract.add_statement(-1.36);
+        contract.add_statement(1.36);
         assert_eq!(
             0.0,
-            contract.get_greeting("bob.near".to_string())
+            contract.get_pnl("bob.near".to_string())
         );
     }
 
@@ -121,10 +121,10 @@ mod tests {
         let context = get_context(vec![], false);
         testing_env!(context);
         let mut contract = Pnl::default();
-        contract.set_greeting(1.36);
+        contract.add_statement(1.36);
         assert_eq!(
             0.0,
-            contract.get_greeting("francis.near".to_string())
+            contract.get_pnl("francis.near".to_string())
         );
     }
 
@@ -135,7 +135,7 @@ mod tests {
         let contract = Pnl::default();
         assert_eq!(
             0.0,
-            contract.get_greeting("francis.near".to_string())
+            contract.get_pnl("francis.near".to_string())
         );
     }
 }
