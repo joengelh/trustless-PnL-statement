@@ -10,19 +10,17 @@
 </head>
 <body>
   <main id="signed-out-flow" style="display: none">
-    <h1>Welcome to NEAR!</h1>
+    <h1>Welcome to trustless PnL Statements</h1>
     <p>
-      To make use of the NEAR blockchain, you need to sign in. The button
-      below will sign you in using NEAR Wallet.
+      Here you can check the PnL statement of other 
+      users.
     </p>
+    <form>
+      <label for="walletAddress">Wallet Address:</label><br>
+      <input type="text" id="walletAddress" name="walletAddress"><br>
+    </form>
     <p>
-      By default, when your app runs in "development" mode, it connects
-      to a test network ("testnet") wallet. This works just like the main
-      network ("mainnet") wallet, but the NEAR Tokens on testnet aren't
-      convertible to other currencies – they're just for testing!
-    </p>
-    <p>
-      Go ahead and click the button below to try it out:
+      If you sign in with your NEAR wallet, you can set your own PnL statements.
     </p>
     <p style="text-align: center; margin-top: 2.5em">
       <button id="sign-in-button">Sign in</button>
