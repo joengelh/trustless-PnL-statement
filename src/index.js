@@ -92,6 +92,17 @@ function signedInFlow() {
   fetchGreeting()
 }
 
+document.getElementById("getPnLButton").addEventListener("click", specificPnl); 
+
+// get accountId specific PnL statement
+async function specificPnl() {
+  var account = document.getElementById('walletAddress');
+  console.log(account.value);
+  var pnl = await contract.get_pnl({ account_id: account.value });
+  console.log(pnl);
+  document.getElementById('pnlResult').value = pnl;
+}
+
 // update global currentGreeting variable; update DOM with it
 async function fetchGreeting() {
   currentGreeting = await contract.get_pnl({ account_id: window.accountId })
