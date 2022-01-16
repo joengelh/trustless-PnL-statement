@@ -10,15 +10,35 @@
 </head>
 <body>
   <main id="signed-out-flow" style="display: none">
-    <h1>Welcome to trustless PnL Statements</h1>
+    <h1>Welcome to trustless PnL</h1>
     <p>
       Here you can check the PnL statement of other 
       users.
     </p>
-    <form>
-      <label for="walletAddress">Wallet Address:</label><br>
-      <input type="text" id="walletAddress" name="walletAddress"><br>
-    </form>
+
+    <div class="row">
+      <div class="column">
+        <form>
+          <input 
+            value="user.testnet"
+            type="text"
+            id="walletAddress" 
+            name="walletAddress" 
+            style="display: inline;">
+          </form>
+      </div>
+      <div class="column">
+        <button 
+          type="submit" 
+          form="walletAddress" 
+          value="queryAccountId">
+          Query PnL
+        </button>
+      </div>
+      <div class="column">
+        <input type="text" class="form-control" size="12" value="{{   }}" id="myInput"></input>
+      </div>
+    </div> 
     <p>
       If you sign in with your NEAR wallet, you can set your own PnL statements.
     </p>

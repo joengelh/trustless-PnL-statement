@@ -2,6 +2,21 @@
   box-sizing: border-box;
 }
 
+form {
+  text-align: center;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 html {
   --bg: #efefef;
   --fg: #1e1e1e;
@@ -64,7 +79,7 @@ button {
   background-color: var(--secondary);
   border-radius: 5px;
   border: none;
-  color: #efefef;
+  color: #1e1e1e;
   cursor: pointer;
   padding: 0.3em 0.75em;
   transition: transform 30ms;
