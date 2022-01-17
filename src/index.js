@@ -97,9 +97,7 @@ document.getElementById("getPnLButton").addEventListener("click", specificPnl);
 // get accountId specific PnL statement
 async function specificPnl() {
   var account = document.getElementById('walletAddress');
-  console.log(account.value);
   var pnl = await contract.get_pnl({ account_id: account.value });
-  console.log(pnl);
   document.getElementById('pnlResult').value = pnl;
 }
 
