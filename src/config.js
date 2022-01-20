@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME ||'trustlesspnl'
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'trustless-profit-loss-statement'
 
 function getConfig(env) {
   switch (env) {

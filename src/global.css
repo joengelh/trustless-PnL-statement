@@ -6,17 +6,6 @@ form {
   text-align: center;
 }
 
-.column {
-  float: left;
-  width: 33.33%;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
 html {
   --bg: #efefef;
   --fg: #1e1e1e;
@@ -41,7 +30,7 @@ body {
 
 main {
   margin: 0 auto;
-  max-width: 25em;
+  max-width: 30em;
 }
 
 h1 {

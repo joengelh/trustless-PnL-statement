@@ -1,4 +1,4 @@
-trustlesspnl Smart Contract
+trustless-profit-loss-statement Smart Contract
 ==================
 
 A [smart contract] written in [Rust] for an app initialized with [create-near-app]

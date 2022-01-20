@@ -12,11 +12,11 @@ Zero knowledge proofs could further protect the traders setups and strategies ag
 
 ## Credits
 
-This [Vue] app was initialized with [create-near-app]
+This [React] app was initialized with [create-near-app]
 Namely, the exact command was:
 
 ```bash
-npx create-near-app --contract rust --frontend vue trustless-profit-loss-statement
+npx create-near-app --contract rust --frontend react trustless-PnL-statement
 ```
 
 ## Quick Start
