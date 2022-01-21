@@ -92,6 +92,10 @@ As you can see in `package.json`, this does two things:
 1. builds & deploys smart contract to NEAR TestNet
 2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
 
+## Discussion
+
+On NEAR using storage is being payed for by staking NEAR coins for as long as the data is saved on the main network. Since algorithmic traders regularily exceed 10.000 trades per year, it is not plausibe to save every trades PnL statement on the blockchain for every user. Instead, the PnL statements are simply being added up and only the sum is saved on the blockchain.
+Anyhow, due to the nature of the blockchain of course it is possible to backtrace every single transaction and thus the history of the account can be calculated and presented by a blockchain analytics software or explorer.
 
 ## Troubleshooting
 
