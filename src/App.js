@@ -54,7 +54,6 @@ export default function App() {
 
           // disable the form while the value gets updated on-chain
           fieldset.disabled = true
-          console.log(account.value)
           try {
             // make an update call to the smart contract
             const pnl = await window.contract.get_pnl({
@@ -136,7 +135,7 @@ export default function App() {
           >
           </label>
           {' '/* React trims whitespace around tags; insert literal space character when needed */}
-          Hello {window.accountId}
+          Hello {window.accountId}, <br></br> your current PnL: {statement}
         </h1>
         <form onSubmit={async event => {
           event.preventDefault()
@@ -145,7 +144,7 @@ export default function App() {
           const { fieldset, statement } = event.target.elements
 
           // hold onto new user-entered value from React's SynthenticEvent for use after `await` call
-          const newGreeting = statement.value
+          const newStatement = statement.value
 
           // disable the form while the value gets updated on-chain
           fieldset.disabled = true
@@ -154,7 +153,7 @@ export default function App() {
             // make an update call to the smart contract
             await window.contract.add_statement({
               // pass the value that the user entered in the statement field
-              statement: parseFloat(newGreeting)
+              statement: parseFloat(newStatement)
             })
           } catch (e) {
             alert(
@@ -169,7 +168,8 @@ export default function App() {
           }
 
           // update local `statement` variable to match persisted value
-          add_statement(parseFloat(newGreeting))
+          let newPnl = await window.contract.get_pnl({ account_id: window.accountId })
+          add_statement(newPnl)
 
           // show Notification
           setShowNotification(true)
@@ -182,19 +182,18 @@ export default function App() {
         }}>
           <fieldset id="fieldset">
             <label
-              htmlFor="pnl"
+              htmlFor="statement"
               style={{
                 display: 'block',
                 color: 'var(--gray)',
                 marginBottom: '0.5em'
               }}
             >
-              Add PnL statement
             </label>
             <div style={{ display: 'flex' }}>
               <input
                 autoComplete="off"
-                defaultValue={statement}
+                placeholder='Enter your PnL Statement'
                 id="statement"
                 onChange={e => setButtonDisabled(e.target.value === statement)}
                 style={{ flex: 1 }}
