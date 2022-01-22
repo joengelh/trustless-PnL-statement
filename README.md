@@ -4,10 +4,9 @@
 
 As proposed by [coffeezilla](https://www.youtube.com/channel/UCFQMnBA3CS502aghlcr0_aw) on YouTube, 
 traders interacting with social media should provide profit-loss statements to prevent fraud and scams.
-This is a proposal for exchanges and brokers to enable algorithmic and non-algorithmic traders to issue trustless or even zero knowledge p&l statements for theire social media followers to audit, written in Rust and deployable on the NEAR blockchain.
+I want to create a technical proposal for exchanges and brokers to enable algorithmic and non-algorithmic traders to issue trustless or even zero knowledge p&l statements for their social media followers to audit, written in Rust and deployable on the NEAR blockchain.
 
-For now, this demo presents a possibility where every account on near could update their global PnL by posting trading results as percentages. Every Account can only update their own PnL by submitting statements, but every account can get every other accounts current PnL.
-Furthermore, by querying the blockchain for past transactions accocated to a specific account, past performance and history can be reviewed.
+For now, this demo presents a possibility where every account on near could update their global PnL by posting trading results as percentages. Every Account can only update their own PnL by submitting statements, but every account can get every other accounts current PnL. Furthermore, by querying the blockchain for past transactions accocated to a specific account, past performance and history can be reviewed.
 
 ## Smart Contract
 
