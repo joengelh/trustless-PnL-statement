@@ -27,7 +27,7 @@ npx create-near-app --contract rust --frontend react trustless-PnL-statement
 ## Quick Start
 
 If you are lazy like me, simply run ``docker-compose up -d --build`` after installing ``docker`` and ``docker-compose``.
-For the installation you can use the following [Ansible Project]('https://github.com/joengelh/ansible-kvm') hosted on Github.
+For the installation you can use the following [Ansible Project](https://github.com/joengelh/ansible-kvm) hosted on Github.
 
 If you are not lazy, follow the manual deployment guide for **testnet**.
 
