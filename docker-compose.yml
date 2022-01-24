@@ -1,7 +1,9 @@
 version: '3'
 
 services:
-  trustlessPnL:
-   build: ./Dockerfile
-   container_name: trustless-PnL-statement
+  trustlesspnl:
+   build: .
+   container_name: trustlesspnl
    restart: always
+   ports:
+   - 1234:1234
