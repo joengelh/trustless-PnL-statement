@@ -6,4 +6,4 @@ services:
    container_name: trustlesspnl
    restart: always
    ports:
-   - 1234:1234
+   - 8080:1234

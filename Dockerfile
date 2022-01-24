@@ -1,14 +1,10 @@
-FROM ubuntu:latest
-
-ARG DEBIAN_FRONTEND=noninteractive
+FROM node:12
 
 RUN apt update
 
-RUN apt install -y curl npm nodejs && \
+RUN apt install -y curl && \
     rm -rf /var/lib/apt/lists/* && \
     apt clean
-
-RUN npm install --global yarn
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
@@ -17,9 +13,12 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN rustup target add wasm32-unknown-unknown
 
-ADD ./src/ /
-COPY ./package.json /
-ADD ./contract/ /
+
+RUN mkdir -p /app
+WORKDIR "/app"
+ADD app /app
+
+RUN ls -la /app/
 
 RUN yarn install
-RUN yarn dev
+CMD ["yarn", "dev"]
