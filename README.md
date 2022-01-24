@@ -26,7 +26,10 @@ npx create-near-app --contract rust --frontend react trustless-PnL-statement
 
 ## Quick Start
 
-To run this project locally:
+If you are lazy like me, simply run ``docker-compose up -d --build`` after installing ``docker`` and ``docker-compose``.
+For the installation you can use the following [Ansible Project]('https://github.com/joengelh/ansible-kvm') hosted on Github.
+
+If you are not lazy, follow the manual deployment guide for **testnet**.
 
 1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
 2. Install dependencies: `yarn install`
@@ -51,11 +54,6 @@ Go ahead and play with the app and the code. As you make code changes, the app w
 
 
 ## Deploy
-
-If you are lazy like me, simply run ``docker-compose up -d --build`` after installing ``docker`` and ``docker-compose``.
-For the installation you can use the following [Ansible Project]('https://github.com/joengelh/ansible-kvm') hosted on Github.
-
-If you are not lazy, follow the manual deployment guide for **testnet**.
 
 Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
 
