@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  trustlessPnL:
+   build: ./Dockerfile
+   container_name: trustless-PnL-statement
+   restart: always
