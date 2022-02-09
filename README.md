@@ -99,6 +99,56 @@ As you can see in `package.json`, this does two things:
 1. builds & deploys smart contract to NEAR TestNet
 2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
 
+## Smart Contract manual Deployment
+
+If the smart contract is to be deployed manually without the frontend, the following steps are required:
+
+
+1. Create a new account on NEAR TestNet.
+
+```bash
+near create-account CONTRACT_NAME.ACCOUNT_ID --masterAcount ACCOUNT_ID --initialBalance 100000000000000
+```
+
+1. Install RUST
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+2. Install NEAR CLI
+
+```bash
+npm install -g near-cli
+```
+
+3. Add WASM target to Rust
+```bash
+rustup target add wasm32-unknown-unknown
+```
+
+4. Build the smart contract
+
+```bash
+cargo build --target wasm32-unknown-unknown --release
+```
+
+5. Deploy the smart contract
+
+```bash
+near deploy --wasmFile target/wasm32-unknown-unknown/release/trustless_pnl.wasm --accountId unittest
+```
+
+6. Test the smart contracts functions
+
+```bash
+near call unittest.testnet get_pnl '{"account_id": "unittest.testnet"}' --accountId unittest.testnet
+```
+
+```bash
+near call unittest.testnet add_statement '{"statement": "unittest.testnet"}' --accountId unittest.testnet
+```
+
 ## Discussion
 
 On NEAR using storage is being payed for by staking NEAR coins for as long as the data is saved on the main network. Since algorithmic traders regularily exceed 10.000 trades per year, it is not plausibe to save every trades PnL statement on the blockchain for every user. Instead, the PnL statements are simply being added up and only the sum is saved on the blockchain.

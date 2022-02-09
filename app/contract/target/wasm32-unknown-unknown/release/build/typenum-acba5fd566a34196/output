@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/home/master/trustless-PnL-statement/app/contract/target/wasm32-unknown-unknown/release/build/typenum-acba5fd566a34196/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/home/master/trustless-PnL-statement/app/contract/target/wasm32-unknown-unknown/release/build/typenum-acba5fd566a34196/out/op.rs
