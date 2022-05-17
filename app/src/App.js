@@ -111,6 +111,9 @@ export default function App() {
           If you sign in with your NEAR wallet, you can set your own PnL statements
           for others to verify immutably on the NEAR blockchain.
         </p>
+        <p>
+          <a target="_blank" href="https://github.com/joengelh/trustless-PnL-statement">This Project is open sourced on GitHub</a>
+        </p>
         <p style={{ textAlign: 'center', marginTop: '2.5em' }}>
           <button onClick={login}>Sign in</button>
         </p>
